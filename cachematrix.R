@@ -1,15 +1,37 @@
-## Put comments here that give an overall description of what your
-## functions do
+## These functions can be used together to cache the results of a matrix to decrease computational load when looping over a large matrix
 
-## Write a short comment describing this function
+## Function 1: square invertible matrix --> returns a list
 
 makeCacheMatrix <- function(x = matrix()) {
 
+        inv = NULL
+        set = function(y) {
+        x <<- y
+        inx = NULL
+        }
+        
+        get = function() x
+        setinv = function(inv) inv <<- inverse
+        getinv = function() inv
+        list(set=set, get=get, setinv=setinv, getinv=getinv)
 }
 
 
-## Write a short comment describing this function
+## Function 2: Will return the inverse of the matrix input to makeCacheMatrix
 
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+        inv = x$getinv()
+        
+        if(!is.null(inv)) {
+                message("getting cached data")
+                return(inv)
+                }
+        
+        mat.data = x$get()
+        inv = solve(mat.data, ...)
+        
+        x$setinv(inv)
+        return(inv)
+
+
 }
